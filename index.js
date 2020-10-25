@@ -1,20 +1,28 @@
-// Initialize ID
-let rule_id = localStorage.getItem("next_id") != null ? localStorage.getItem("next_id") : 1;
+const api_url = 'https://jsonblob.com/api/jsonBlob/c9978adc-1701-11eb-9634-15fe62b70cf8';
 
-// Load rules from local storage
-for (var i = 0, len = localStorage.length; i < len; ++i) {
-    const key = localStorage.key(i);
-    if (key == 'next_id') continue;
+// Get rules from jsonblob API
+let rules = '';
+fetch(api_url, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+})
+    .then(response => response.json())
+    .then(data => {
+        for (let rule of data.rules) {
+            $(`<li class="list-group-item list-group-item-dark">
+            <p>${rule}</p>
+            <span class="badge badge-pill badge-danger">X</span>
+            </li>`)
+                .insertBefore($('#color-rules > div'));
+        }
 
-    const rule = localStorage.getItem(key);
-
-    //Add list item
-    $(`<li id='${key}' class="list-group-item list-group-item-dark">
-        ${rule}
-        <span class="badge badge-pill badge-danger">X</span>
-    </li>`).insertBefore($('#color-rules > div'));
-}
-
+        attachEvents();
+    })
+    .catch((err) => {
+        console.error('Error getting rules', err);
+    });
 
 $(document).ready(function () {
     $('#new-color-rule').on('keypress', function (e) {
@@ -40,19 +48,17 @@ function addRule() {
     const newRule = $('#new-color-rule').val().trim();
     if (!newRule) return;
 
-    //Add list item
-    $(`<li id='${rule_id}' class="list-group-item list-group-item-dark">
-            ${newRule}
-            <span class="badge badge-pill badge-danger">X</span>
-        </li>
-    `).insertBefore($('#color-rules > div'));
-
-    //Clear input
+    // Clear input
     $('#new-color-rule').val('');
 
-    localStorage.setItem(rule_id, newRule);
-    rule_id++;
-    localStorage.setItem("next_id", rule_id);
+    //Add list item
+    $(`<li class="list-group-item list-group-item-dark">
+    <p>${newRule}</p>
+    <span class="badge badge-pill badge-danger">X</span>
+    </li>`)
+        .insertBefore($('#color-rules > div'));
+
+    updateRules();
 }
 
 function attachEvents() {
@@ -66,8 +72,8 @@ function attachEvents() {
 
     $('.badge').click(function () {
         $(this).parent().hide(400, function () {
-            localStorage.removeItem($(this).attr('id'));
             $(this).remove();
+            updateRules();
         });
     });
 }
@@ -108,4 +114,26 @@ function randomize() {
             });
         }, index * interval);
     });
+}
+
+function updateRules() {
+    // Get current rules
+    let rules = $('ul li:not(.list-head) p').map(function () { return $(this).text() }).get()
+
+    // Updates rules in jsonblob.com
+    fetch(api_url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            rules: rules
+        })
+    })
+        .then(response => {
+            console.log(response);
+        })
+        .catch((err) => {
+            console.error('Error sending rule', err);
+        });
 }
