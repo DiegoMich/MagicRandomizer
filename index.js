@@ -12,7 +12,7 @@ for (var i = 0, len = localStorage.length; i < len; ++i) {
     $(`<li id='${key}' class="list-group-item list-group-item-dark">
         ${rule}
         <span class="badge badge-pill badge-danger">X</span>
-    </li>`).insertBefore($('#color-rules input'));
+    </li>`).insertBefore($('#color-rules > div'));
 }
 
 
@@ -21,6 +21,11 @@ $(document).ready(function () {
         if (e.which == 13) {
             addRule();
         }
+        attachEvents();
+    });
+
+    $('#btn-add').click(function () {
+        addRule();
         attachEvents();
     });
 
@@ -40,7 +45,7 @@ function addRule() {
             ${newRule}
             <span class="badge badge-pill badge-danger">X</span>
         </li>
-    `).insertBefore($('#color-rules input'));
+    `).insertBefore($('#color-rules > div'));
 
     //Clear input
     $('#new-color-rule').val('');
@@ -68,9 +73,9 @@ function attachEvents() {
 }
 
 function randomize() {
-    $('li:not(.list-head)').css('color','#1b1e21');
-    $('li:not(.list-head)').css('backgroundColor','#c6c8ca');
-    
+    $('li:not(.list-head)').css('color', '#1b1e21');
+    $('li:not(.list-head)').css('backgroundColor', '#c6c8ca');
+
     let ruleCount = $('ul li').length - 1;
 
     if (ruleCount < 1) {
@@ -95,9 +100,9 @@ function randomize() {
                 $(element).animate({
                     fontSize: "1rem",
                 }, 100, function () {
-                    if (index == rules.length-1) {
-                        $(`ul li:nth-child(${randomPick})`).css('color','white');
-                        $(`ul li:nth-child(${randomPick})`).css('backgroundColor','red');
+                    if (index == rules.length - 1) {
+                        $(`ul li:nth-child(${randomPick})`).css('color', 'white');
+                        $(`ul li:nth-child(${randomPick})`).css('backgroundColor', 'red');
                     }
                 });
             });

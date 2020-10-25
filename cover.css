@@ -90,6 +90,10 @@ h1 {
   text-align: center;
 }
 
+#btn-add {
+  border-top-right-radius: 0px;
+}
+
 .badge {
   margin-left: 0.5rem;
   position: absolute;

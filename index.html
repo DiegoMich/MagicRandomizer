@@ -36,14 +36,22 @@
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
       <div class="inner">
-        <img src="mtg.png" width="400px" alt="Magic-Logo">
+        <img src="mtg.png" width="100%" alt="Magic-Logo">
         <h1 class="masthead-brand">Rules Randomizer</h1>
     </header>
 
     <main role="main" class="inner cover">
       <ul id="color-rules" class="list-group">
         <li class="list-group-item list-head">Rules</li>
-        <input id="new-color-rule" class="form-control" type="text" placeholder="New rule">
+
+        
+        <div class="input-group mb-3">
+          <input id="new-color-rule" class="form-control" type="text" placeholder="New rule">
+          <div class="input-group-append">
+            <button id='btn-add' class="btn btn-primary" type="button">Add</button>
+          </div>
+        </div>
+      
       </ul>
       <button id="btn-random" class="btn btn-danger">Randomize!</button>
     </main>
