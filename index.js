@@ -52,6 +52,10 @@ $(document).ready(function () {
         $('#img-pw').css('opacity', '1');
         $('#btn-pw').prop('disabled', false);
     });
+
+    $('#img-pw-zoom').click(function () {
+        $('#zoom').modal('hide');
+    });
 });
 
 function addRule() {
@@ -168,6 +172,7 @@ function getPw() {
     .then(data => {
         if (data && data.image_uris && data.image_uris.border_crop) {
             $('#img-pw').attr('src', data.image_uris.border_crop);
+            $('#img-pw-zoom').attr('src', data.image_uris.normal);
         }
     })
     .catch((err) => {

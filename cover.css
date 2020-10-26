@@ -123,6 +123,7 @@ h4 {
 
 #img-pw {
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 #btn-pw {
