@@ -1,4 +1,5 @@
 const api_url = 'https://jsonblob.com/api/jsonBlob/c9978adc-1701-11eb-9634-15fe62b70cf8';
+const scryfall_url = 'https://api.scryfall.com/cards/random?q=f%3Amodern+is%3Ahires+t%3Aplaneswalker';
 
 // Get rules from jsonblob API
 let rules = '';
@@ -40,7 +41,16 @@ $(document).ready(function () {
     attachEvents();
 
     $('#btn-random').click(function () {
+        $('#btn-random').prop('disabled', true);
         randomize();
+    });
+
+    $('#btn-pw').click(getPw);
+
+    $('#img-pw').on('load', function () {
+        $('#img-pw').stop();
+        $('#img-pw').css('opacity', '1');
+        $('#btn-pw').prop('disabled', false);
     });
 });
 
@@ -109,6 +119,7 @@ function randomize() {
                     if (index == rules.length - 1) {
                         $(`ul li:nth-child(${randomPick})`).css('color', 'white');
                         $(`ul li:nth-child(${randomPick})`).css('backgroundColor', 'red');
+                        $('#btn-random').prop('disabled', false);
                     }
                 });
             });
@@ -136,4 +147,30 @@ function updateRules() {
         .catch((err) => {
             console.error('Error sending rule', err);
         });
+}
+
+function getPw() {
+    $('#btn-pw').prop('disabled', true);
+
+    $('#img-pw').animate({
+        opacity: 0.1,
+    }, 1000, function () {
+        console.log('animation complete');
+    });
+
+    fetch(scryfall_url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.image_uris && data.image_uris.border_crop) {
+            $('#img-pw').attr('src', data.image_uris.border_crop);
+        }
+    })
+    .catch((err) => {
+        console.error('Error getting random card', err);
+    });
 }
