@@ -34,6 +34,7 @@
 
 <body class="text-center">
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
     <header class="masthead mb-auto">
       <div class="inner">
         <img src="mtg.png" width="100%" alt="Magic-Logo">
@@ -44,16 +45,23 @@
       <ul id="color-rules" class="list-group">
         <li class="list-group-item list-head">Rules</li>
 
-        
         <div class="input-group mb-3">
           <input id="new-color-rule" class="form-control" type="text" placeholder="New rule">
           <div class="input-group-append">
             <button id='btn-add' class="btn btn-primary" type="button">Add</button>
           </div>
         </div>
-      
+
       </ul>
       <button id="btn-random" class="btn btn-danger">Randomize!</button>
+
+      <h4>Random Planeswalker</h4>
+      <button id="btn-pw" class="btn btn-primary" type="button">Get Planeswalker</button>
+      <div class="row justify-content-md-center">
+        <div id="img-col" class="col-lg-6 col-sm-8 col-xs-12">
+          <img id="img-pw" src="random.png" alt="" width="100%" data-toggle="modal" data-target="#zoom">
+        </div>
+      </div>
     </main>
 
     <footer class="mastfoot mt-auto">
@@ -64,7 +72,19 @@
   </div>
 </body>
 
+<!-- Modal -->
+<div class="modal fade" id="zoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <img id="img-pw-zoom" src="random.png" alt="" width="100%">
+    </div>
+  </div>
+</div>
+
+
 </html>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
 <script src="index.js"></script>
+<script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
